@@ -159,6 +159,7 @@ function update(dt) {
   scoreEl.textContent = String(game.score).padStart(4, "0");
 
   for (const c of game.columns) c.x -= game.speed * dt;
+  game.nextColumnX -= game.speed * dt;
   game.columns = game.columns.filter(c => c.x + BLOCK > -BLOCK);
   generateColumns();
 
