@@ -1,0 +1,1 @@
+The Hero Run browser demo is adapted from Aaron Nobbe's supplied embedded C++ source. The original code targets a 16x2 character LCD and push-button input. The browser version translates the game concepts to HTML5 Canvas input and rendering.

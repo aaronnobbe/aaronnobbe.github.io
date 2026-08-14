@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aaron Nobbe — M.S. Electrical & Computer Engineering portfolio. Engineering projects, tennis, travel, and interactive work.">
+  <meta name="theme-color" content="#07111f">
+  <title>Aaron Nobbe | Electrical & Computer Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="Aaron Nobbe home">
+      <span class="brand-mark">AN</span>
+      <span>Aaron Nobbe</span>
+    </a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#tennis">Tennis</a>
+      <a href="#travel">Travel</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-resume" href="assets/Aaron_Nobbe_Resume.pdf" target="_blank" rel="noopener">Resume ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section-pad">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> Electrical & Computer Engineering</div>
+        <h1>Building systems that<br><span class="gradient-text">move, measure & compute.</span></h1>
+        <p class="hero-lede">
+          I'm <strong>Aaron Nobbe</strong>, an M.S. Electrical & Computer Engineering student at
+          Southern Illinois University Edwardsville. I work across embedded systems, software,
+          data acquisition, machine learning, and digital systems.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#projects">Explore my work <span>↓</span></a>
+          <a class="button button-ghost" href="https://www.linkedin.com/in/aaron-nobbe/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+        <div class="hero-meta">
+          <span>SIUE</span><span>•</span><span>St. Louis Metro East</span><span>•</span><span>Open to engineering opportunities</span>
+        </div>
+      </div>
+
+      <div class="hero-photo-wrap">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="hero-photo-card">
+          <img src="assets/profile.jpg" alt="Portrait of Aaron Nobbe">
+        </div>
+        <div class="floating-chip chip-degree">
+          <span class="chip-icon">∑</span>
+          <div><b>M.S.</b><small>Electrical & Computer Engineering</small></div>
+        </div>
+        <div class="floating-chip chip-sport">
+          <span class="chip-icon">↗</span>
+          <div><b>Tennis</b><small>Club leadership & competition</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-strip">
+      <div><b>01</b><span>Wind tunnel<br>control & DAQ</span></div>
+      <div><b>02</b><span>Embedded<br>systems</span></div>
+      <div><b>03</b><span>Python / C++ /<br>LabVIEW / MATLAB</span></div>
+      <div><b>04</b><span>Club tennis<br>leadership</span></div>
+    </section>
+
+    <section class="section-pad about" id="about">
+      <div class="section-label">01 — ABOUT</div>
+      <div class="about-grid">
+        <div>
+          <h2>Engineering with a<br><span class="gradient-text">hands-on bias.</span></h2>
+        </div>
+        <div class="about-copy">
+          <p>
+            My work sits at the intersection of hardware and software. I enjoy taking a physical
+            system, understanding the signals and constraints around it, and building the software
+            that makes the system easier to control, measure, and use.
+          </p>
+          <p>
+            At SIUE, that has included LabVIEW-based instrumentation, embedded programming,
+            digital systems, machine learning, circuit analysis, and C++ game development.
+            Outside the lab, I lead and compete with SIUE Club Tennis and spend plenty of time
+            traveling.
+          </p>
+          <div class="skill-cloud" aria-label="Skills">
+            <span>Embedded Systems</span><span>Python</span><span>C++</span><span>LabVIEW</span>
+            <span>MATLAB</span><span>Machine Learning</span><span>Digital Logic</span>
+            <span>DSP</span><span>LTSpice</span><span>Agile / Scrum</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad projects" id="projects">
+      <div class="section-label">02 — FEATURED PROJECTS</div>
+      <div class="section-heading">
+        <div>
+          <h2>Technical work,<br><span class="gradient-text">made visible.</span></h2>
+        </div>
+        <p>Two projects get the full case-study treatment. Additional work is listed below for context.</p>
+      </div>
+
+      <!--
+        TO ADD ANOTHER FULL CASE-STUDY PROJECT:
+        Copy one of the <article class="project-card"> blocks below
+        (wind-card or game-card), give it a new class name if you want
+        unique styling, update the copy/images, and paste it here or
+        after the existing ones. It will automatically pick up the
+        project-card / project-grid layout styles from styles.css.
+      -->
+      <article class="project-card wind-card">
+        <div class="project-topline"><span>01 / SENIOR DESIGN</span><span>LABVIEW • RS-232 • DAQ</span></div>
+        <div class="project-grid">
+          <div class="project-copy">
+            <div class="project-number">01</div>
+            <h3>Wind Tunnel<br>Data Acquisition & Control</h3>
+            <p class="project-summary">
+              A LabVIEW interface for controlling a three-axis probe position system and collecting
+              dynamometer measurements in real time.
+            </p>
+            <ul class="feature-list">
+              <li><span>↳</span> RS-232 communication with a VP9000 controller</li>
+              <li><span>↳</span> X / Y / Z probe positioning with home and zero-position controls</li>
+              <li><span>↳</span> Real-time lift, drag, and sideslip visualization</li>
+              <li><span>↳</span> Trial data organized for export and analysis</li>
+            </ul>
+            <div class="tech-row"><span>LabVIEW</span><span>RS-232</span><span>DAQ</span><span>Instrumentation</span></div>
+          </div>
+          <div class="project-media">
+            <figure class="media-main">
+              <img src="assets/wind-tunnel-interface.png" alt="Wind tunnel LabVIEW control interface" loading="lazy">
+              <figcaption>Operator interface — probe positioning, dynamometer readout, and live graphs.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="backend-gallery">
+          <figure><img src="assets/wind-tunnel-backend.png" alt="Wind tunnel LabVIEW backend block diagram" loading="lazy"><figcaption>Backend logic — acquisition, taring, and waveform charting.</figcaption></figure>
+          <figure><img src="assets/wind-tunnel-backend-2.png" alt="Wind tunnel LabVIEW backend block diagram showing serial and axis controls" loading="lazy"><figcaption>Backend logic — serial configuration, axis movement, and position handling.</figcaption></figure>
+        </div>
+      </article>
+
+      <article class="project-card game-card">
+        <div class="project-topline"><span>02 / EMBEDDED C++</span><span>INTERACTIVE DEMO</span></div>
+        <div class="project-grid game-grid">
+          <div class="project-copy">
+            <div class="project-number">02</div>
+            <h3>Hero Run</h3>
+            <p class="project-summary">
+              An embedded C++ game inspired by the Chrome Dino runner, built around a character
+              LCD and push-button input. The original program uses custom LCD sprites, terrain
+              generation, interrupt-driven input, collision detection, and score progression.
+            </p>
+            <div class="game-specs">
+              <div><b>C++</b><span>Original implementation</span></div>
+              <div><b>LCD</b><span>Custom graphics</span></div>
+              <div><b>IRQ</b><span>Button interrupt</span></div>
+              <div><b>Web</b><span>Browser adaptation</span></div>
+            </div>
+            <div class="wasm-note">
+              <span class="note-icon">λ</span>
+              <div>
+                <b>WebAssembly conversion</b>
+                <p>The original C++ source is being adapted toward WebAssembly so the native game
+                logic can eventually run directly in the browser. This demo is the browser-playable
+                adaptation of the same core game concept and behavior.</p>
+              </div>
+            </div>
+          </div>
+          <div class="game-panel">
+            <div class="game-header">
+              <div><span class="live-dot"></span> HERO RUN / BROWSER DEMO</div>
+              <div>SPACE / ↑ / TAP = JUMP</div>
+            </div>
+            <canvas id="gameCanvas" width="760" height="300" aria-label="Playable Hero Run game"></canvas>
+            <div class="game-controls">
+              <button class="button button-primary" id="startGame">Start / Restart</button>
+              <span id="gameStatus">Press Start to play.</span>
+              <strong>Score <span id="score">0000</span></strong>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="other-projects">
+        <div class="mini-project">
+          <span>03</span><h4>Infrared Morse-Code Communicator</h4>
+          <p>Two-node IR link decoding Morse in real time with bare-metal drivers for IR sensors, external SRAM, and an LCD.</p>
+          <em>C • Embedded • Digital Systems</em>
+        </div>
+        <div class="mini-project">
+          <span>04</span><h4>Website Summarizer</h4>
+          <p>Python tool that processes website HTML and generates summaries using OpenAI APIs.</p>
+          <em>Python • Web • APIs</em>
+        </div>
+        <!--
+          TO ADD ANOTHER SMALLER PROJECT: copy a .mini-project block
+          below this comment, bump the number, and fill in the fields.
+          It'll drop into the grid automatically.
+
+          <div class="mini-project">
+            <span>05</span><h4>Project Title</h4>
+            <p>One or two sentences describing what it does.</p>
+            <em>Tag • Tag • Tag</em>
+          </div>
+        -->
+      </div>
+    </section>
+
+    <section class="section-pad tennis" id="tennis">
+      <div class="section-label">03 — TENNIS</div>
+      <div class="split-title">
+        <div><h2>Competition,<br><span class="gradient-text">leadership, repetition.</span></h2></div>
+        <div>
+          <p>SIUE Club Tennis has been a major part of my college experience — from Treasurer to President and now Vice President, while traveling competitively with the team.</p>
+          <div class="role-pills"><span>Vice President · 26/27</span><span>President · 25/26</span><span>Competitive Travel</span></div>
+        </div>
+      </div>
+      <div class="photo-grid tennis-grid">
+        <div class="photo-tile tall"><img src="assets/gallery/tennis-1.jpg" alt="Aaron Nobbe playing tennis" loading="lazy"></div>
+        <div class="photo-tile"><img src="assets/gallery/tennis-2.jpg" alt="Tennis action shot" loading="lazy"></div>
+        <div class="photo-tile"><img src="assets/gallery/tennis-3.jpg" alt="Tennis action shot" loading="lazy"></div>
+        <div class="photo-tile wide"><img src="assets/gallery/tennis-4.jpg" alt="SIUE Club Tennis team" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="section-pad travel" id="travel">
+      <div class="section-label">04 — TRAVEL LOG</div>
+      <div class="travel-intro">
+        <div><h2>Outside the lab,<br><span class="gradient-text">on the road.</span></h2></div>
+        <p>A simple visual travel journal. Drop in your best photos, add the location and year in <code>script.js</code>, and the cards will render automatically.</p>
+      </div>
+      <div class="travel-grid" id="travelGrid"></div>
+    </section>
+
+    <section class="section-pad contact" id="contact">
+      <div class="contact-card">
+        <div>
+          <div class="section-label">05 — CONTACT</div>
+          <h2>Let's build something<br><span class="gradient-text">interesting.</span></h2>
+          <p>For engineering opportunities, project conversations, collaboration, or just to connect.</p>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:aanobbe@siue.edu"><span>Email</span><b>aanobbe@siue.edu ↗</b></a>
+          <a href="https://www.linkedin.com/in/aaron-nobbe/" target="_blank" rel="noopener"><span>LinkedIn</span><b>linkedin.com/in/aaron-nobbe ↗</b></a>
+          <a href="https://github.com/aaronnobbe" target="_blank" rel="noopener"><span>GitHub</span><b>github.com/aaronnobbe ↗</b></a>
+          <a href="assets/Aaron_Nobbe_Resume.pdf" target="_blank" rel="noopener"><span>Resume</span><b>Open PDF ↗</b></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Aaron Nobbe</span>
+    <span>M.S. Electrical & Computer Engineering · SIUE</span>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

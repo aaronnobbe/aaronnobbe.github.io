@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+<defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#101a2f"/>
+    <stop offset="1" stop-color="#0b5362"/>
+  </linearGradient>
+  <radialGradient id="r" cx="50%" cy="40%" r="60%">
+    <stop offset="0" stop-color="#7dd3fc" stop-opacity=".28"/>
+    <stop offset="1" stop-color="#7dd3fc" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="800" height="1000" rx="48" fill="url(#g)"/>
+<circle cx="400" cy="350" r="260" fill="url(#r)"/>
+<circle cx="400" cy="335" r="125" fill="#d7e4ea" opacity=".92"/>
+<path d="M170 820c28-180 145-275 230-275s202 95 230 275" fill="#d7e4ea" opacity=".92"/>
+<text x="400" y="930" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="34" font-weight="700">ADD YOUR PHOTO</text>
+<text x="400" y="970" text-anchor="middle" fill="#b7d6df" font-family="Arial, sans-serif" font-size="20">assets/profile.jpg</text>
+</svg>
