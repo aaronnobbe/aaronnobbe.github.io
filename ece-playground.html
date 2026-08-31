@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Electronics Bench | Aaron Nobbe</title>
+  <style>
+    :root{
+      --bg:#050914;
+      --panel:#0b1220;
+      --panel2:#0f1a2d;
+      --text:#eef5ff;
+      --muted:#94a3b8;
+      --border:rgba(255,255,255,.09);
+      --accent:#67e8f9;
+      --accent2:#a78bfa;
+      --good:#86efac;
+      --warn:#fbbf24;
+      --danger:#fca5a5;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 16% 12%, rgba(103,232,249,.08), transparent 30rem),
+        radial-gradient(circle at 86% 16%, rgba(167,139,250,.08), transparent 28rem),
+        var(--bg);
+      min-height:100vh;
+    }
+
+    a{color:inherit}
+
+    .wrap{
+      width:min(1220px,calc(100% - 32px));
+      margin:auto;
+      padding:26px 0 54px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:34px;
+    }
+
+    .eyebrow{
+      font-size:.78rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--accent);
+      font-weight:700;
+    }
+
+    .back{
+      text-decoration:none;
+      border:1px solid var(--border);
+      padding:10px 14px;
+      border-radius:12px;
+      color:var(--muted);
+      background:rgba(255,255,255,.03);
+    }
+
+    .back:hover{
+      color:var(--text);
+      border-color:rgba(103,232,249,.35);
+    }
+
+    h1{
+      font-size:clamp(2.4rem,6vw,5.4rem);
+      line-height:.95;
+      margin:.35rem 0 1rem;
+      letter-spacing:-.05em;
+    }
+
+    .lede{
+      max-width:790px;
+      color:var(--muted);
+      font-size:1.08rem;
+      line-height:1.7;
+      margin:0 0 36px;
+    }
+
+    .bench{
+      border:1px solid var(--border);
+      border-radius:26px;
+      background:rgba(11,18,32,.82);
+      backdrop-filter:blur(12px);
+      overflow:hidden;
+    }
+
+    .bench-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      padding:22px 22px 18px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .bench-head h2{
+      margin:0 0 7px;
+      font-size:clamp(1.5rem,3vw,2.3rem);
+    }
+
+    .bench-head p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .tag{
+      font:600 .75rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+      border:1px solid var(--border);
+      padding:8px 10px;
+      border-radius:999px;
+      color:var(--accent);
+      white-space:nowrap;
+    }
+
+    .bench-grid{
+      display:grid;
+      grid-template-columns:340px minmax(0,1fr);
+      min-width:0;
+    }
+
+    .generator{
+      padding:20px;
+      border-right:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.02), transparent 55%);
+    }
+
+    .scope{
+      padding:20px;
+      min-width:0;
+    }
+
+    .instrument-label{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:15px;
+    }
+
+    .instrument-label strong{
+      font-size:1rem;
+      letter-spacing:.03em;
+    }
+
+    .device-id{
+      color:var(--muted);
+      font:600 .72rem ui-monospace,SFMono-Regular,Menlo,monospace;
+    }
+
+    .screen{
+      background:#02060c;
+      border:1px solid rgba(103,232,249,.17);
+      border-radius:18px;
+      padding:13px;
+    }
+
+    canvas{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:11px;
+      background:#02070d;
+    }
+
+    .readouts{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .pill{
+      font:600 .76rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
+      padding:8px 10px;
+      border:1px solid var(--border);
+      border-radius:9px;
+      color:#cbd5e1;
+      background:rgba(255,255,255,.03);
+    }
+
+    .controls{
+      display:grid;
+      gap:12px;
+    }
+
+    .control{
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(255,255,255,.025);
+    }
+
+    .control label{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size:.84rem;
+      color:#dbeafe;
+      margin-bottom:8px;
+    }
+
+    .value{
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+      color:var(--accent);
+    }
+
+    select{
+      width:100%;
+      font:inherit;
+      color:var(--text);
+      background:#08111f;
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px;
+    }
+
+    input[type=range]{
+      width:100%;
+      accent-color:var(--accent);
+    }
+
+    .btn-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+    }
+
+    button{
+      min-height:44px;
+      font:inherit;
+      color:var(--text);
+      background:#0d1728;
+      border:1px solid var(--border);
+      border-radius:11px;
+      padding:10px 13px;
+      cursor:pointer;
+    }
+
+    button:hover{
+      border-color:rgba(103,232,249,.42);
+    }
+
+    button.active{
+      background:rgba(103,232,249,.12);
+      border-color:rgba(103,232,249,.5);
+      color:var(--accent);
+    }
+
+    button.output-on{
+      color:var(--good);
+      border-color:rgba(134,239,172,.42);
+      background:rgba(134,239,172,.08);
+    }
+
+    .connector{
+      margin:16px 0;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--muted);
+      font-size:.82rem;
+    }
+
+    .jack{
+      width:15px;
+      height:15px;
+      border-radius:50%;
+      border:3px solid #94a3b8;
+      background:#111827;
+      box-shadow:0 0 0 3px rgba(255,255,255,.025);
+    }
+
+    .cable{
+      flex:1;
+      height:3px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      opacity:.78;
+      border-radius:999px;
+    }
+
+    .scope-controls{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .scope-controls .control{
+      min-width:0;
+    }
+
+    .scope-controls .wide{
+      grid-column:span 2;
+    }
+
+    .note{
+      margin-top:14px;
+      padding:11px 12px;
+      border-left:3px solid rgba(103,232,249,.5);
+      background:rgba(103,232,249,.04);
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.55;
+      border-radius:0 10px 10px 0;
+    }
+
+    .status{
+      margin-top:16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+    }
+
+    .status span{
+      font:600 .75rem ui-monospace,SFMono-Regular,Menlo,monospace;
+      color:var(--muted);
+    }
+
+    .footer{
+      margin-top:28px;
+      text-align:center;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    @media(max-width:980px){
+      .bench-grid{grid-template-columns:1fr}
+      .generator{border-right:0;border-bottom:1px solid var(--border)}
+      .scope-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+
+    @media(max-width:620px){
+      .wrap{width:min(100% - 20px,1220px)}
+      .bench-head{display:block}
+      .tag{display:inline-block;margin-top:12px}
+      .scope-controls{grid-template-columns:1fr}
+      .scope-controls .wide{grid-column:auto}
+      .btn-row{grid-template-columns:1fr}
+      .topbar{align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <div class="eyebrow">Interactive Engineering Lab</div>
+      <a class="back" href="index.html">← Back to Portfolio</a>
+    </div>
+
+    <h1>Virtual Electronics Bench</h1>
+    <p class="lede">
+      A browser-based function generator and oscilloscope lab. Configure the source signal, connect it to Channel 1,
+      then adjust the scope just like a benchtop instrument.
+    </p>
+
+    <section class="bench">
+      <div class="bench-head">
+        <div>
+          <h2>Signal Generator → Oscilloscope</h2>
+          <p>Change the source, probe, coupling, scale, and trigger settings to see how the measurement responds.</p>
+        </div>
+        <span class="tag">ECE · SIGNALS · INSTRUMENTATION</span>
+      </div>
+
+      <div class="bench-grid">
+        <aside class="generator">
+          <div class="instrument-label">
+            <strong>FUNCTION GENERATOR</strong>
+            <span class="device-id">FG-01</span>
+          </div>
+
+          <div class="controls">
+            <div class="control">
+              <label for="waveform">Waveform</label>
+              <select id="waveform">
+                <option value="sine">Sine</option>
+                <option value="square">Square</option>
+                <option value="triangle">Triangle</option>
+              </select>
+            </div>
+
+            <div class="control">
+              <label for="frequency">Frequency <span class="value" id="frequencyValue"></span></label>
+              <input id="frequency" type="range" min="100" max="10000" value="1000" step="100">
+            </div>
+
+            <div class="control">
+              <label for="amplitude">Amplitude <span class="value" id="amplitudeValue"></span></label>
+              <input id="amplitude" type="range" min="0.2" max="5" value="2" step="0.1">
+            </div>
+
+            <div class="control">
+              <label for="offset">DC Offset <span class="value" id="offsetValue"></span></label>
+              <input id="offset" type="range" min="-3" max="3" value="0" step="0.1">
+            </div>
+
+            <div class="control">
+              <label for="noise">Noise <span class="value" id="noiseValue"></span></label>
+              <input id="noise" type="range" min="0" max="0.5" value="0" step="0.01">
+            </div>
+
+            <div class="btn-row">
+              <button id="outputBtn" type="button" class="output-on">OUTPUT ON</button>
+              <button id="presetBtn" type="button">1 kHz Preset</button>
+            </div>
+          </div>
+
+          <div class="connector">
+            <span class="jack" aria-hidden="true"></span>
+            <span>OUTPUT</span>
+            <span class="cable" aria-hidden="true"></span>
+            <span>CH1</span>
+            <span class="jack" aria-hidden="true"></span>
+          </div>
+
+          <div class="note">
+            Try increasing amplitude while lowering volts/div, or add DC offset and switch the scope to AC coupling.
+          </div>
+        </aside>
+
+        <section class="scope">
+          <div class="instrument-label">
+            <strong>DIGITAL OSCILLOSCOPE</strong>
+            <span class="device-id">DSO-01 · CH1</span>
+          </div>
+
+          <div class="screen">
+            <canvas id="scopeCanvas" width="920" height="500" aria-label="Animated oscilloscope display"></canvas>
+
+            <div class="readouts">
+              <span class="pill" id="mFreq">FREQ 1.00 kHz</span>
+              <span class="pill" id="mPeriod">PERIOD 1.00 ms</span>
+              <span class="pill" id="mVpp">VPP 4.00 V</span>
+              <span class="pill" id="mRms">VRMS 1.41 V</span>
+              <span class="pill" id="mMax">VMAX +2.00 V</span>
+              <span class="pill" id="mMin">VMIN -2.00 V</span>
+            </div>
+          </div>
+
+          <div class="scope-controls">
+            <div class="control">
+              <label for="voltsDiv">Volts / Div <span class="value" id="voltsDivValue"></span></label>
+              <input id="voltsDiv" type="range" min="0.2" max="5" value="1" step="0.2">
+            </div>
+
+            <div class="control">
+              <label for="timeDiv">Time / Div <span class="value" id="timeDivValue"></span></label>
+              <input id="timeDiv" type="range" min="0.02" max="2" value="0.5" step="0.02">
+            </div>
+
+            <div class="control">
+              <label for="probe">Probe</label>
+              <select id="probe">
+                <option value="1">×1</option>
+                <option value="10" selected>×10</option>
+              </select>
+            </div>
+
+            <div class="control">
+              <label for="coupling">Coupling</label>
+              <select id="coupling">
+                <option value="DC" selected>DC</option>
+                <option value="AC">AC</option>
+              </select>
+            </div>
+
+            <div class="control wide">
+              <label for="trigger">Trigger Level <span class="value" id="triggerValue"></span></label>
+              <input id="trigger" type="range" min="-5" max="5" value="0" step="0.1">
+            </div>
+
+            <div class="control wide">
+              <label>Acquisition</label>
+              <div class="btn-row">
+                <button id="runStop" class="active" type="button">RUN</button>
+                <button id="autoset" type="button">AUTOSET</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="status">
+            <span id="statusOutput">SOURCE: ON</span>
+            <span id="statusProbe">PROBE: ×10</span>
+            <span id="statusCoupling">COUPLING: DC</span>
+            <span id="statusTrigger">TRIGGER: 0.0 V</span>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <div class="footer">Built with HTML, CSS, Canvas, and vanilla JavaScript.</div>
+  </main>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('scopeCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const el = {
+        waveform: document.getElementById('waveform'),
+        frequency: document.getElementById('frequency'),
+        amplitude: document.getElementById('amplitude'),
+        offset: document.getElementById('offset'),
+        noise: document.getElementById('noise'),
+        voltsDiv: document.getElementById('voltsDiv'),
+        timeDiv: document.getElementById('timeDiv'),
+        probe: document.getElementById('probe'),
+        coupling: document.getElementById('coupling'),
+        trigger: document.getElementById('trigger')
+      };
+
+      const txt = {
+        frequency: document.getElementById('frequencyValue'),
+        amplitude: document.getElementById('amplitudeValue'),
+        offset: document.getElementById('offsetValue'),
+        noise: document.getElementById('noiseValue'),
+        voltsDiv: document.getElementById('voltsDivValue'),
+        timeDiv: document.getElementById('timeDivValue'),
+        trigger: document.getElementById('triggerValue')
+      };
+
+      const meter = {
+        freq: document.getElementById('mFreq'),
+        period: document.getElementById('mPeriod'),
+        vpp: document.getElementById('mVpp'),
+        rms: document.getElementById('mRms'),
+        max: document.getElementById('mMax'),
+        min: document.getElementById('mMin')
+      };
+
+      let running = true;
+      let outputOn = true;
+      let phase = 0;
+      let last = performance.now();
+
+      function state(){
+        return {
+          waveform: el.waveform.value,
+          frequency: Number(el.frequency.value),
+          amplitude: Number(el.amplitude.value),
+          offset: Number(el.offset.value),
+          noise: Number(el.noise.value),
+          voltsDiv: Number(el.voltsDiv.value),
+          timeDivMs: Number(el.timeDiv.value),
+          probe: Number(el.probe.value),
+          coupling: el.coupling.value,
+          trigger: Number(el.trigger.value)
+        };
+      }
+
+      function baseWave(type, cycle){
+        const t = cycle - Math.floor(cycle);
+        if(type === 'square') return t < .5 ? 1 : -1;
+        if(type === 'triangle') return 1 - 4 * Math.abs(t - .5);
+        return Math.sin(cycle * Math.PI * 2);
+      }
+
+      function rmsFactor(type){
+        if(type === 'square') return 1;
+        if(type === 'triangle') return 1 / Math.sqrt(3);
+        return 1 / Math.sqrt(2);
+      }
+
+      function updateLabels(){
+        const s = state();
+
+        txt.frequency.textContent = s.frequency >= 1000
+          ? (s.frequency / 1000).toFixed(1) + ' kHz'
+          : s.frequency.toFixed(0) + ' Hz';
+        txt.amplitude.textContent = s.amplitude.toFixed(1) + ' Vpk';
+        txt.offset.textContent = (s.offset >= 0 ? '+' : '') + s.offset.toFixed(1) + ' V';
+        txt.noise.textContent = s.noise.toFixed(2) + ' V';
+        txt.voltsDiv.textContent = s.voltsDiv.toFixed(1) + ' V';
+        txt.timeDiv.textContent = s.timeDivMs.toFixed(2) + ' ms';
+        txt.trigger.textContent = (s.trigger >= 0 ? '+' : '') + s.trigger.toFixed(1) + ' V';
+
+        const probeScale = s.probe;
+        const effectiveOffset = (s.coupling === 'AC' ? 0 : s.offset) * probeScale;
+        const peak = outputOn ? s.amplitude * probeScale : 0;
+        const vmax = effectiveOffset + peak;
+        const vmin = effectiveOffset - peak;
+
+        meter.freq.textContent = outputOn
+          ? 'FREQ ' + (s.frequency >= 1000 ? (s.frequency/1000).toFixed(2) + ' kHz' : s.frequency.toFixed(0) + ' Hz')
+          : 'FREQ --';
+        meter.period.textContent = outputOn
+          ? 'PERIOD ' + (1000 / s.frequency).toFixed(2) + ' ms'
+          : 'PERIOD --';
+        meter.vpp.textContent = 'VPP ' + (2 * peak).toFixed(2) + ' V';
+        meter.rms.textContent = 'VRMS ' + (peak * rmsFactor(s.waveform)).toFixed(2) + ' V';
+        meter.max.textContent = 'VMAX ' + (vmax >= 0 ? '+' : '') + vmax.toFixed(2) + ' V';
+        meter.min.textContent = 'VMIN ' + (vmin >= 0 ? '+' : '') + vmin.toFixed(2) + ' V';
+
+        document.getElementById('statusOutput').textContent = 'SOURCE: ' + (outputOn ? 'ON' : 'OFF');
+        document.getElementById('statusProbe').textContent = 'PROBE: ×' + s.probe;
+        document.getElementById('statusCoupling').textContent = 'COUPLING: ' + s.coupling;
+        document.getElementById('statusTrigger').textContent = 'TRIGGER: ' + (s.trigger >= 0 ? '+' : '') + s.trigger.toFixed(1) + ' V';
+      }
+
+      function drawGrid(){
+        const w = canvas.width;
+        const h = canvas.height;
+
+        ctx.fillStyle = '#02070d';
+        ctx.fillRect(0,0,w,h);
+
+        for(let i=0;i<=10;i++){
+          const x = i*w/10;
+          ctx.strokeStyle = i===5 ? 'rgba(103,232,249,.28)' : 'rgba(103,232,249,.11)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x,0);
+          ctx.lineTo(x,h);
+          ctx.stroke();
+        }
+
+        for(let i=0;i<=8;i++){
+          const y = i*h/8;
+          ctx.strokeStyle = i===4 ? 'rgba(103,232,249,.28)' : 'rgba(103,232,249,.11)';
+          ctx.beginPath();
+          ctx.moveTo(0,y);
+          ctx.lineTo(w,y);
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle='rgba(103,232,249,.3)';
+        for(let x=0;x<w;x+=18){
+          ctx.beginPath();
+          ctx.moveTo(x,h/2-3);
+          ctx.lineTo(x,h/2+3);
+          ctx.stroke();
+        }
+
+        for(let y=0;y<h;y+=18){
+          ctx.beginPath();
+          ctx.moveTo(w/2-3,y);
+          ctx.lineTo(w/2+3,y);
+          ctx.stroke();
+        }
+      }
+
+      function drawTrigger(s){
+        const h = canvas.height;
+        const pxPerVolt = h/8/s.voltsDiv;
+        const y = h/2 - s.trigger*pxPerVolt;
+
+        if(y < 0 || y > h) return;
+
+        ctx.save();
+        ctx.setLineDash([8,8]);
+        ctx.strokeStyle='rgba(167,139,250,.45)';
+        ctx.lineWidth=1.5;
+        ctx.beginPath();
+        ctx.moveTo(0,y);
+        ctx.lineTo(canvas.width,y);
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.fillStyle='#a78bfa';
+        ctx.beginPath();
+        ctx.moveTo(4,y);
+        ctx.lineTo(17,y-8);
+        ctx.lineTo(17,y+8);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      function drawWave(now){
+        const dt = Math.min((now-last)/1000,.05);
+        last = now;
+
+        const s = state();
+        if(running) phase += dt*.2;
+
+        drawGrid();
+        drawTrigger(s);
+
+        const pxPerVolt = canvas.height/8/s.voltsDiv;
+        const totalTimeSec = (s.timeDivMs*10)/1000;
+        const probeScale = s.probe;
+        const offset = (s.coupling === 'AC' ? 0 : s.offset) * probeScale;
+
+        ctx.beginPath();
+
+        for(let x=0;x<canvas.width;x++){
+          const time = (x/canvas.width)*totalTimeSec;
+          const cycles = s.frequency*time + phase;
+
+          let volts = offset;
+          if(outputOn){
+            volts += (s.amplitude * probeScale) * baseWave(s.waveform,cycles);
+            volts += (Math.random()*2-1) * s.noise * probeScale;
+          }
+
+          const y = canvas.height/2 - volts*pxPerVolt;
+
+          if(x===0) ctx.moveTo(x,y);
+          else ctx.lineTo(x,y);
+        }
+
+        ctx.strokeStyle = outputOn ? '#67e8f9' : '#475569';
+        ctx.lineWidth=3;
+        ctx.shadowColor=outputOn ? 'rgba(103,232,249,.55)' : 'transparent';
+        ctx.shadowBlur=outputOn ? 11 : 0;
+        ctx.stroke();
+        ctx.shadowBlur=0;
+
+        // Trigger marker
+        ctx.fillStyle='#a78bfa';
+        ctx.beginPath();
+        ctx.moveTo(canvas.width/2-8,4);
+        ctx.lineTo(canvas.width/2+8,4);
+        ctx.lineTo(canvas.width/2,14);
+        ctx.closePath();
+        ctx.fill();
+
+        requestAnimationFrame(drawWave);
+      }
+
+      Object.values(el).forEach(control => {
+        control.addEventListener('input', updateLabels);
+        control.addEventListener('change', updateLabels);
+      });
+
+      document.getElementById('outputBtn').addEventListener('click', e => {
+        outputOn = !outputOn;
+        e.currentTarget.textContent = outputOn ? 'OUTPUT ON' : 'OUTPUT OFF';
+        e.currentTarget.classList.toggle('output-on', outputOn);
+        updateLabels();
+      });
+
+      document.getElementById('runStop').addEventListener('click', e => {
+        running = !running;
+        e.currentTarget.textContent = running ? 'RUN' : 'STOPPED';
+        e.currentTarget.classList.toggle('active', running);
+      });
+
+      document.getElementById('presetBtn').addEventListener('click', () => {
+        el.waveform.value='square';
+        el.frequency.value='1000';
+        el.amplitude.value='2.5';
+        el.offset.value='0';
+        el.noise.value='0';
+        updateLabels();
+      });
+
+      document.getElementById('autoset').addEventListener('click', () => {
+        const s = state();
+
+        // approximate auto volts/div based on visible peak
+        const peakVisible = Math.max(.2, (s.amplitude + Math.abs(s.coupling === 'AC' ? 0 : s.offset)) * s.probe);
+        const preferredVdiv = Math.max(.2, Math.min(5, Math.ceil((peakVisible/3)*5)/5));
+        el.voltsDiv.value = preferredVdiv.toFixed(1);
+
+        // aim to show about 3 periods across screen
+        const periodMs = 1000/s.frequency;
+        const preferredTdiv = Math.max(.02, Math.min(2, periodMs*3/10));
+        el.timeDiv.value = preferredTdiv.toFixed(2);
+
+        el.trigger.value = '0';
+        updateLabels();
+      });
+
+      updateLabels();
+      requestAnimationFrame(drawWave);
+    })();
+  </script>
+</body>
+</html>
