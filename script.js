@@ -3,12 +3,12 @@
    trip: drop the photo in assets/gallery/ and add an entry to the TOP
    of this array. */
 const travelEntries = [
-  { year: "2026", location: "Colorado", caption: "Took in some beautiful signts in the National Park", image: "assets/gallery/travel-7.jpg" },
+  { year: "2026", location: "Colorado", caption: "Took in some beautiful sights in the Rocky Mountain National Park", image: "assets/gallery/travel-7.jpg" },
   { year: "2025", location: "South Carolina", caption: "Spent a week lying low", image: "assets/gallery/travel-6.jpg" },
   { year: "2024", location: "California/Oregon", caption: "Coolest trip ever that involved intense hiking and sleeping on the snow.", image: "assets/gallery/travel-5.jpg" },
   { year: "2024", location: "Florida", caption: "Had the pleasure of vacationing with a close friend.", image: "assets/gallery/travel-4.jpg" },
   { year: "2023", location: "Hawaii", caption: "Incase you were curious, the national bird of Hawaii is the heli-choppa-whoppa - some tour guide.", image: "assets/gallery/travel-3.jpg" },
-  { year: "2022", location: "Oregon", caption: "What better way to spend time with the family than hiking", image: "assets/gallery/travel-2.jpg" },
+  { year: "2022", location: "Oregon", caption: "What better way to spend time with the family than hiking.", image: "assets/gallery/travel-2.jpg" },
   { year: "2021", location: "Glacier National Park", caption: "My amazing mother made matching shirts for everyone this year.", image: "assets/gallery/travel-1.jpg" }
 ];
 
